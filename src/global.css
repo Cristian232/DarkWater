@@ -1,0 +1,21 @@
+/* global.css */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Example font */
+    background-color: #1E212D; /* Adjust based on your app's theme */
+    color: #FFFFFF; /* Adjust based on your app's theme */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Other global styles can be added here */

@@ -1,0 +1,51 @@
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #1E212D;
+    color: #FFFFFF;
+    min-height: 100vh;
+}
+
+.serverStatus {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #252935;
+    border-radius: 4px;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.actionButton {
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: #4F76F6;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.actionButton:hover {
+    background-color: #3E88F7;
+}
+
+.domainsList {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    width: 100%;
+    background-color: #252935;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.domainItem {
+    padding: 10px;
+    margin: 5px 0;
+    background-color: #3A3F4B;
+    border-radius: 4px;
+}
