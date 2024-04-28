@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from '../api/AxiosConfig.jsx';
+import axios, {apiInstance, dnsInstance} from '../api/AxiosConfig.jsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
 import CookieManager from "./CookieManager.jsx";
@@ -21,6 +21,46 @@ function LoginPage() {
         setLoading(true);
         try {
             const response = await axios.post(`/do_login`, { username, password });
+            const token = response.data.sessionID;
+            CookieManager.setSessionCookie(token);
+            navigate('/dashboard');
+        } catch (axiosError) {
+            console.error("Login failed:", axiosError);
+            setError('Failed to login. Please check your credentials and try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit2 = async (e) => {
+        e.preventDefault();
+        if (!username || !password) {
+            setError('Username and password are required');
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await apiInstance.post(`/do_login`, { username, password });
+            const token = response.data.sessionID;
+            CookieManager.setSessionCookie(token);
+            navigate('/dashboard');
+        } catch (axiosError) {
+            console.error("Login failed:", axiosError);
+            setError('Failed to login. Please check your credentials and try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleSubmit3 = async (e) => {
+        e.preventDefault();
+        if (!username || !password) {
+            setError('Username and password are required');
+            return;
+        }
+        setLoading(true);
+        try {
+            const response = await dnsInstance.post(`/do_login`, { username, password });
             const token = response.data.sessionID;
             CookieManager.setSessionCookie(token);
             navigate('/dashboard');
