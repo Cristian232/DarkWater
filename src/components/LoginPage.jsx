@@ -13,7 +13,6 @@ function LoginPage() {
     const [response, setResponse] = useState(''); // State to display results from the request
 
     const navigate = useNavigate();
-    const baseUrl = 'http://localhost:5000';
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,7 +22,7 @@ function LoginPage() {
         }
         setLoading(true);
         try {
-            const response = await axios.post(`${baseUrl}/do_login`, { username, password });
+            const response = await axios.post(`/do_login`, { username, password });
             const token = response.data.sessionID;
             CookieManager.setSessionCookie(token);
             navigate('/dashboard');
