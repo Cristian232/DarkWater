@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from '..//AxiosConfig.jsx';
+import axios from '../api/AxiosConfig.jsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
 import CookieManager from "./CookieManager.jsx";
@@ -9,8 +9,6 @@ function LoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [request, setRequest] = useState(''); // State to handle custom request input
-    const [response, setResponse] = useState(''); // State to display results from the request
 
     const navigate = useNavigate();
 
@@ -26,28 +24,11 @@ function LoginPage() {
             const token = response.data.sessionID;
             CookieManager.setSessionCookie(token);
             navigate('/dashboard');
-        } catch (error) {
-            console.error("Login failed:", error);
+        } catch (axiosError) {
+            console.error("Login failed:", axiosError);
             setError('Failed to login. Please check your credentials and try again.');
         } finally {
             setLoading(false);
-        }
-    };
-
-    const handleRequestSubmit = async (e) => {
-        e.preventDefault(); // Prevent form submission from reloading the page
-        if (!request) {
-            setResponse('Please enter a request to send.'); // Prompt user to enter a request if empty
-            return;
-        }
-        try {
-            const res = await axios.get(`${request}`); // Make the GET request
-            const formattedData = JSON.stringify(res.data, null, 2); // Format JSON data nicely with indentation
-            console.log('Response Data:', formattedData); // Log formatted data for debugging
-            setResponse(formattedData); // Update the response state with formatted data
-        } catch (error) {
-            console.error('Request Error:', error); // Log errors to console for debugging
-            setResponse(`Request failed: ${error.message}`); // Display a user-friendly error message
         }
     };
 
@@ -72,22 +53,9 @@ function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     className={styles.inputField}
                 />
-                <button type="submit" disabled={loading} className={styles.submitButton}>
+                <button type="submit" disabled={loading || !username || !password} className={styles.submitButton}>
                     {loading ? 'Logging in...' : 'Login'}
                 </button>
-            </form>
-            <form onSubmit={handleRequestSubmit} className={styles.testForm}>
-                <input
-                    type="text"
-                    placeholder="Enter request endpoint"
-                    value={request}
-                    onChange={(e) => setRequest(e.target.value)}
-                    className={styles.inputField}
-                />
-                <button type="submit" className={styles.submitButton}>
-                    Send Request
-                </button>
-                {response && <div className={styles.responseBox}>{response}</div>}
             </form>
         </div>
     );
