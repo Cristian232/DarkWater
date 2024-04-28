@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react';
-import {
-    apiInstance,
-    dnsInstance
-} from '../api/AxiosConfig.jsx';
+import axios from '../api/AxiosConfig.jsx';
 import { useNavigate } from 'react-router-dom';
 import CookieManager from './CookieManager'; // Ensure this import is correct
 import styles from './Dashboard.module.css';
-import axios from "axios";
+
 
 const Dashboard = () => {
     const [domains, setDomains] = useState([]);
@@ -143,7 +140,7 @@ const Dashboard = () => {
             return;
         }
         try {
-            const res = await apiInstance.get(`/${request2}`);
+            const res = await axios.get(`/${request2}`);
             console.log("-----Request2" + JSON.stringify(res.data))
             setResponse2(JSON.stringify(res.data));
         } catch (error) {
@@ -158,7 +155,7 @@ const Dashboard = () => {
             return;
         }
         try {
-            const res = await dnsInstance.get(`/${request3}`);
+            const res = await axios.get(`/${request3}`);
             console.log("-----Request3" + JSON.stringify(res.data))
             setResponse3(JSON.stringify(res.data));
         } catch (error) {
