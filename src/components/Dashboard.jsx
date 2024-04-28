@@ -11,11 +11,10 @@ const Dashboard = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const baseUrl = 'http://localhost:5000';
 
     useEffect(() => {
         if (!CookieManager.getSessionCookie()) {
-            navigate('/login'); // Redirect to login if no session
+            navigate('api/login'); // Redirect to login if no session
         }
         fetchDomains();
     }, []);
@@ -23,7 +22,7 @@ const Dashboard = () => {
 
     const fetchDomains = async () => {
         try {
-            const response = await axios.get(`${baseUrl}/get_domains`);
+            const response = await axios.get(`api/get_domains`);
             console.log(JSON.stringify(response))
             setDomains(response.data)
             console.log(JSON.stringify(response.data))
@@ -51,11 +50,11 @@ const Dashboard = () => {
 
     const handleServerAction = async (action) => {
         if (!CookieManager.getSessionCookie()) {
-            navigate('/login');
+            navigate('api/login');
             return;
         }
         try {
-            let result = await axios.get(`${baseUrl}/${action}`);
+            let result = await axios.get(`api/${action}`);
             console.log(JSON.stringify(result))
             if (action !== 'stop_server') {
                 setServerStatus('Server is alive.');
@@ -70,14 +69,14 @@ const Dashboard = () => {
 
     const handleDeleteDomain = async (domainId) => {
         if (!CookieManager.getSessionCookie()) {
-            navigate('/login');
+            navigate('api/login');
             return;
         }
         const originalDomains = domains;
         const newDomains = domains.filter(domain => domain.id !== domainId);
         setDomains(newDomains); // Optimistically update the UI
         try {
-            await axios.post(`${baseUrl}/delete_domain`, { id: domainId }, {
+            await axios.post(`api/delete_domain`, { id: domainId }, {
                 withCredentials: true
             });
         } catch (error) {
@@ -88,14 +87,14 @@ const Dashboard = () => {
 
     const handleUpdateDomain = async (domainId) => {
         if (!CookieManager.getSessionCookie()) {
-            navigate('/login');
+            navigate('api/login');
             return;
         }
         const newName = prompt("Please enter the new domain name:", "");
         if (newName !== null && newName !== "") {
             const originalDomains = [...domains];
             try {
-                await axios.post(`${baseUrl}/update_domain`, { id: domainId, name: newName });
+                await axios.post(`api/update_domain`, { id: domainId, name: newName });
                 fetchDomains();
             } catch (error) {
                 console.error("Failed to update domain:", error);
@@ -106,7 +105,7 @@ const Dashboard = () => {
 
     const handleSignOut = () => {
         CookieManager.removeSessionCookie();
-        navigate('/login'); // Redirect to login route
+        navigate('api/login'); // Redirect to login route
     };
 
     return (
