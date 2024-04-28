@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import axios, {apiInstance, dnsInstance} from '../api/AxiosConfig.jsx';
+import {apiInstance, dnsInstance} from '../api/AxiosConfig.jsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
 import CookieManager from "./CookieManager.jsx";
+import axios from "axios";
 
 function LoginPage() {
     const [username, setUsername] = useState('');
