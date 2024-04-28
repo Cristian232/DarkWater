@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axios from '..//AxiosConfig.jsx';
 import { useNavigate } from 'react-router-dom';
 import styles from './LoginPage.module.css';
 import CookieManager from "./CookieManager.jsx";
@@ -22,10 +22,10 @@ function LoginPage() {
         }
         setLoading(true);
         try {
-            const response = await axios.post(`api/do_login`, { username, password });
+            const response = await axios.post(`/do_login`, { username, password });
             const token = response.data.sessionID;
             CookieManager.setSessionCookie(token);
-            navigate('api/dashboard');
+            navigate('/dashboard');
         } catch (error) {
             console.error("Login failed:", error);
             setError('Failed to login. Please check your credentials and try again.');

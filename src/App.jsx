@@ -6,9 +6,9 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="api/" element={<LoginPage />} />
-                <Route path="api/login" element={<LoginPage />} />
-                <Route path="api/dashboard" element={<Dashboard />} />
+                <Route path="/" element={<LoginPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
         </Router>
     );
