@@ -13,12 +13,6 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [request, setRequest] = useState(''); // State to handle custom request input
     const [response, setResponse] = useState(''); // State to display results from the request
-    const [request2, setRequest2] = useState(''); // State to handle custom request input
-    const [response2, setResponse2] = useState(''); // State to display results from the request
-    const [request3, setRequest3] = useState(''); // State to handle custom request input
-    const [response3, setResponse3] = useState(''); // State to display results from the request
-
-
 
 
     useEffect(() => {
@@ -32,26 +26,10 @@ const Dashboard = () => {
     const fetchDomains = async () => {
         try {
             const response = await axios.get(`/get_domains`);
-            console.log(JSON.stringify(response))
-            setDomains(response.data)
             console.log(JSON.stringify(response.data))
+            setDomains(response.data)
         } catch (error) {
-            if (error.response) {
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                console.log("Testerror---------")
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            } else if (error.request) {
-                // The request was made but no response was received
-                console.log("Testerrorrequest---------")
-                console.error(error.request);
-            } else {
-                // Something happened in setting up the request that triggered an Error
-                console.error('Error', error.message);
-            }
-            console.error(error.config);
+            console.error(error);
         } finally {
             setIsLoading(false);
         }
@@ -66,14 +44,16 @@ const Dashboard = () => {
             let result = await axios.get(`/${action}`);
             console.log(JSON.stringify(result))
             if (action == 'start_server') {
-                setServerStatus('Server is alive.');
+                setServerStatus(result.data);
             } else if (action == 'stop_server') {
-                setServerStatus('Server is stopped.');
+                setServerStatus(result.data);
             } else if (action === 'restart_server') {
-                setServerStatus('Server restarted.');
+                setServerStatus(result.data);
             } else if (action === 'check_alive') {
-                setServerStatus('Checking alive');
+                setServerStatus(result.data);
             } else if (action === 'fetchDomains') {
+                const res = await axios.get(`/check_alive`)
+                setServerStatus("Fetched domains and " + res.data);
                 fetchDomains();
             }
         } catch (error) {
@@ -133,37 +113,6 @@ const Dashboard = () => {
         }
     };
 
-    const handleRequestSubmit2 = async (e) => {
-        e.preventDefault();
-        if (!request2) {
-            setResponse2('Please enter a request to send.');
-            return;
-        }
-        try {
-            const res = await axios.get(`/${request2}`);
-            console.log("-----Request2" + JSON.stringify(res.data))
-            setResponse2(JSON.stringify(res.data));
-        } catch (error) {
-            setResponse2('Request failed: ' + error.message);
-        }
-    };
-
-    const handleRequestSubmit3 = async (e) => {
-        e.preventDefault();
-        if (!request3) {
-            setResponse3('Please enter a request to send.');
-            return;
-        }
-        try {
-            const res = await axios.get(`/${request3}`);
-            console.log("-----Request3" + JSON.stringify(res.data))
-            setResponse3(JSON.stringify(res.data));
-        } catch (error) {
-            setResponse3('Request failed: ' + error.message);
-        }
-    };
-
-
     const handleSignOut = () => {
         CookieManager.removeSessionCookie();
         navigate('/login'); // Redirect to login route
@@ -220,42 +169,6 @@ const Dashboard = () => {
                             </button>
                             {response && <div
                                 className={styles.responseBox}>{response}</div>}
-                        </form>
-                    </div>
-                    <div>
-                        <form onSubmit={handleRequestSubmit2}
-                              className={styles.testForm}>
-                            <input
-                                type="text"
-                                placeholder="Enter request endpoint"
-                                value={request2}
-                                onChange={(e) => setRequest2(e.target.value)}
-                                className={styles.inputField}
-                            />
-                            <button type="submit"
-                                    className={styles.submitButton}>
-                                Send Request
-                            </button>
-                            {response2 && <div
-                                className={styles.responseBox}>{response2}</div>}
-                        </form>
-                    </div>
-                    <div>
-                        <form onSubmit={handleRequestSubmit3}
-                              className={styles.testForm}>
-                            <input
-                                type="text"
-                                placeholder="Enter request endpoint"
-                                value={request3}
-                                onChange={(e) => setRequest3(e.target.value)}
-                                className={styles.inputField}
-                            />
-                            <button type="submit"
-                                    className={styles.submitButton}>
-                                Send Request
-                            </button>
-                            {response3 && <div
-                                className={styles.responseBox}>{response3}</div>}
                         </form>
                     </div>
                     <h3>Domains</h3>
