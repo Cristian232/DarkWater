@@ -12,6 +12,24 @@ function LoginPage() {
 
     const navigate = useNavigate();
 
+    const handleGuestLogin = async (e) => {
+        // Logic for guest access
+        console.log('Continue as guest');
+        // Possible redirection or state update
+        e.preventDefault();
+        setLoading(true);
+        try {
+            const response = await axios.post(`/do_login`, { username, password });
+            navigate('/dashboard');
+        } catch (axiosError) {
+            console.error("Login failed:", axiosError);
+            setError('Failed to login. Please check your credentials and try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username || !password) {
@@ -53,8 +71,19 @@ function LoginPage() {
                     onChange={(e) => setPassword(e.target.value)}
                     className={styles.inputField}
                 />
-                <button type="submit" disabled={loading || !username || !password} className={styles.submitButton}>
+                <button type="submit"
+                        disabled={loading || !username || !password}
+                        className={styles.submitButton}>
                     {loading ? 'Logging in...' : 'Login'}
+                </button>
+                <div className={styles.divider}>
+                    <hr className={styles.line}/>
+                    <span className={styles.or}>or</span>
+                    <hr className={styles.line}/>
+                </div>
+                <button type="button" onClick={handleGuestLogin}
+                        className={styles.submitButton}>
+                    Continue as Guest
                 </button>
             </form>
         </div>
