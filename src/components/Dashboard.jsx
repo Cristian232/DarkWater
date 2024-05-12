@@ -38,6 +38,20 @@ const Dashboard = () => {
         }
     };
 
+    const check_alive = async (action) => {
+        try {
+            const result = await axios.get(`/check_alive`);
+            console.log(JSON.stringify(result));
+            setServerStatus(result.data);
+        } catch (error) {
+            console.error(`Failed to ${action}:`, error);
+            setServerStatus('Server action failed.');
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const handleServerAction = async (action) => {
         if (!CookieManager.getSessionCookie()) {
             navigate('/login');
@@ -53,7 +67,7 @@ const Dashboard = () => {
             } else if (action === 'restart_server') {
                 setServerStatus(result.data);
             } else if (action === 'check_alive') {
-                setServerStatus(result.data);
+                check_alive();
             } else if (action === 'fetchDomains') {
                 fetchDomains();
             }
