@@ -39,7 +39,11 @@ function LoginPage() {
         setLoading(true);
         try {
             const response = await axios.post(`/do_login`, { username, password });
-            CookieManager.setSessionCookie(response.data)
+            const token = response.data.sessionId;
+            CookieManager.setSessionCookie(token);
+            console.log("response --- " + JSON.stringify(response));
+            console.log("responsedate ---- " + response.data.message)
+            console.log("token ----- " + response.data.sessionId)
             navigate('/dashboard');
         } catch (axiosError) {
             console.error("Login failed:", axiosError);

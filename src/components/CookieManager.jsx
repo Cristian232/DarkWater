@@ -1,18 +1,19 @@
 import Cookie from 'js-cookie';
 
 const CookieManager = {
-    setSessionCookie: (value) => {
-        Cookie.set('DNSWebSession', value, { expires: 1 });
+    setSessionCookie: (token) => {
+        // const timestamp = Math.floor(Date.now() / 1000); // Current time in seconds
+        // const base64Token = btoa(String(timestamp)); // Convert timestamp to string and encode in Base64
+        // Cookie.set('session_id', base64Token, { expires: 1 }); // Set cookie with the encoded token
+        Cookie.set('session_id', token, { expires: 1 });
     },
 
     getSessionCookie: () => {
-        // Retrieve the cookie, which is a base64-encoded timestamp
-        Cookie.get('DNSWebSession');
+        return Cookie.get('session_id');
     },
 
     removeSessionCookie: () => {
-        // Remove the session cookie
-        Cookie.remove('DNSWebSession');
+        Cookie.remove('session_id');
     }
 };
 
