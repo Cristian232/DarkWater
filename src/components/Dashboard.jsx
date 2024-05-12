@@ -104,11 +104,11 @@ const Dashboard = () => {
 
         const newName = prompt("Please enter the new domain name:", "");
         if (newName !== null && newName.trim() !== "") {
+            document.cookie = 'DNSWebSession=MA==';
             try {
-                const response = await axios.post(`/update_domain`, {
-                    id: domainId,
+                const response = await axios.post(`/update_domain`, [{
                     name: newName
-                }, {
+                }], {
                     headers: {
                         'Content-Type': 'application/json',
                         'Cookie': `session_id=${sessionCookie}` // Assuming cookies need to be manually set
@@ -128,6 +128,36 @@ const Dashboard = () => {
             alert('No name entered or update cancelled.');
         }
     };
+
+
+    const updateDomains = async () => {
+        const url = 'http://192.168.1.58:5000/update_domain';
+        const data = [
+            { name: "place.holder" },
+            { name: "test.com" }
+        ];
+        const options = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true, // This is necessary to send cookies with the request
+        };
+
+        // Set the DNSWebSession cookie if it's not handled by the browser automatically
+        // Note: In browsers, document.cookie may not be able to set HttpOnly cookies
+        document.cookie = 'DNSWebSession=MA==';
+        // let DNSWebSession;
+        // document.cookie= DNSWebSession="MTcxNTUyMTAxOA==";
+
+
+        try {
+            const response = await axios.post(url, data, options);
+            console.log('Success:', response.data);
+        } catch (error) {
+            console.error('Failed to update domains:', error);
+        }
+    };
+
 
 
     const handleRequestSubmit = async (e) => {
