@@ -100,16 +100,30 @@ const Dashboard = () => {
             navigate('/login');
             return;
         }
+
         const newName = prompt("Please enter the new domain name:", "");
-        if (newName !== null && newName !== "") {
-            const originalDomains = [...domains];
+        if (newName !== null && newName.trim() !== "") {
+            const originalDomains = [...domains]; // Clone domains to revert in case of error
             try {
-                await axios.post(`/update_domain`, { id: domainId, name: newName });
-                fetchDomains();
+                const response = await axios.post(`/update_domain`, {
+                    id: domainId,
+                    name: newName
+                }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true // Ensure cookies are sent with the request
+                });
+
+                console.log('Update response:', response.data);
+                fetchDomains(); // Refresh the list after successful update
             } catch (error) {
                 console.error("Failed to update domain:", error);
-                setDomains(originalDomains); // Revert on error
+                setDomains(originalDomains); // Revert the domains list on error
+                alert('Failed to update domain. Please try again.'); // Provide feedback to the user
             }
+        } else {
+            alert('Update cancelled or invalid name entered.');
         }
     };
 
