@@ -19,8 +19,8 @@ function LoginPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.post(`/do_login`, { username, password });
-            navigate('/dashboard');
+            //const response = await axios.post(`/do_login`, { username, password });
+            navigate('/dashboardUnauth');
         } catch (axiosError) {
             console.error("Login failed:", axiosError);
             setError('Failed to login. Please check your credentials and try again.');
