@@ -31,6 +31,7 @@ const Dashboard = () => {
         try {
             const response = await axios.get(`/get_domains`);
             console.log(JSON.stringify(response.data));
+            setServerStatus('Fetched domains');
             setDomains(response.data);
             setError('');
         } catch (error) {
@@ -63,7 +64,16 @@ const Dashboard = () => {
                     <ul className={styles.domainsList}>
                         {domains.map((domain, index) => (
                             <li key={domain.id} className={styles.domainItem}>
-                                <span className={styles.domainName}>{domain.name}</span>
+                                <span
+                                    className={styles.domainName}>{domain.name}</span>
+                                <div className={styles.domainActions}>
+                                    <button
+                                        className={styles.smallButton}>Update
+                                    </button>
+                                    <button
+                                        className={styles.smallButton}>Delete
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
