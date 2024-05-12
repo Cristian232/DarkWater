@@ -22,11 +22,19 @@ const Dashboard = () => {
             let result = await axios.get(`/${action}`);
             console.log(JSON.stringify(result))
             if (action === 'fetchDomains') {
-                const res = await axios.get(`/check_alive`)
-                setServerStatus("Fetched domains and " + res.data);
-                await fetchDomains();
+                fetchDomains()
+                setServerStatus("Fetched domains");
             } else if (action === 'check_alive') {
-                setServerStatus(result.data);
+                try {
+                    const response = await axios.get(`/check_alive`);
+                    console.log(JSON.stringify(response.data))
+                    setDomains(response.data)
+                    setServerStatus(response.data);
+                } catch (error) {
+                    console.error(error);
+                } finally {
+                    setIsLoading(false);
+                }
             }
         } catch (error) {
             console.error(`Failed to ${action}:`, error);
