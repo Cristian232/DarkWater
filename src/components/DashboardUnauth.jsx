@@ -55,7 +55,7 @@ const Dashboard = () => {
                 <p>{error}</p>
             ) : (
                 <>
-                    <div className={styles.serverStatus}>{serverStatus}</div>
+                    <div className={styles.serverStatus}>{serverStatus.length > 0 ? {serverStatus} : ("Server Status") }</div>
                     <div>
                         <button
                             onClick={() => handleServerAction('check_alive')}
