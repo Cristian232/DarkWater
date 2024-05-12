@@ -12,17 +12,17 @@ const Dashboard = () => {
         fetchDomains();
     }, []);
 
-    const handleServerAction = async (action) => {
+    const check_alive = async (action) => {
         try {
-            const result = await axios.get(`/${action}`);
+            const result = await axios.get(`/check_alive`);
             console.log(JSON.stringify(result));
-            if (action === 'check_alive') {
                 setServerStatus(result.data);
-            }
         } catch (error) {
             console.error(`Failed to ${action}:`, error);
             setServerStatus('Server action failed.');
             setError(error.message);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -52,7 +52,7 @@ const Dashboard = () => {
                 <>
                     <div className={styles.serverStatus}>{serverStatus || "Server Status"}</div>
                     <div>
-                        <button onClick={() => handleServerAction('check_alive')} className={styles.actionButton}>
+                        <button onClick={check_alive} className={styles.actionButton}>
                             Check Server Status
                         </button>
                         <button onClick={fetchDomains} className={styles.actionButton}>
