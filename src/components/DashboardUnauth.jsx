@@ -73,12 +73,7 @@ const Dashboard = () => {
                                 <span
                                     className={styles.domainName}>{domain.name}</span>
                                 <div className={styles.domainActions}>
-                                    <button
-                                        className={styles.smallButton}>Update
-                                    </button>
-                                    <button
-                                        className={styles.smallButton}>Delete
-                                    </button>
+
                                 </div>
                             </li>
                         ))}
