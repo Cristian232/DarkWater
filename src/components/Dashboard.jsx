@@ -22,14 +22,17 @@ const Dashboard = () => {
         fetchDomains();
     }, []);
 
-
     const fetchDomains = async () => {
+        setIsLoading(true);
         try {
             const response = await axios.get(`/get_domains`);
-            console.log(JSON.stringify(response.data))
-            setDomains(response.data)
+            console.log(JSON.stringify(response.data));
+            setServerStatus('Fetched domains');
+            setDomains(response.data);
+            setError('');
         } catch (error) {
             console.error(error);
+            setError('Failed to fetch domains.');
         } finally {
             setIsLoading(false);
         }
@@ -127,7 +130,8 @@ const Dashboard = () => {
                 <p>{error}</p>
             ) : (
                 <>
-                    <div className={styles.serverStatus}>{serverStatus}</div>
+                    <div
+                        className={styles.serverStatus}>{serverStatus || "Server Status"}</div>
                     <div>
                         <button
                             onClick={() => handleServerAction('start_server')}
