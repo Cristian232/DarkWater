@@ -44,8 +44,8 @@ const Dashboard = () => {
             return;
         }
         try {
-            let result = await axios.get(`/${action}`);
-            console.log(JSON.stringify(result))
+            // let result = await axios.get(`/${action}`);
+            // console.log(JSON.stringify(result))
             if (action == 'start_server') {
                 setServerStatus(result.data);
             } else if (action == 'stop_server') {
@@ -55,8 +55,6 @@ const Dashboard = () => {
             } else if (action === 'check_alive') {
                 setServerStatus(result.data);
             } else if (action === 'fetchDomains') {
-                const res = await axios.get(`/check_alive`)
-                setServerStatus("Fetched domains and " + res.data);
                 fetchDomains();
             }
         } catch (error) {
