@@ -28,7 +28,6 @@ const Dashboard = () => {
                 try {
                     const response = await axios.get(`/check_alive`);
                     console.log(JSON.stringify(response.data))
-                    setDomains(response.data)
                     setServerStatus(response.data);
                 } catch (error) {
                     console.error(error);
