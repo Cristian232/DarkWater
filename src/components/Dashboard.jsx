@@ -46,7 +46,8 @@ const Dashboard = () => {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                params: { page }
+                params: { page },
+                body: { "page":`${page}` }
             });
             console.log("check me --- " + JSON.stringify(response.data));
             setServerStatus('Fetched domains');
