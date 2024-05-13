@@ -136,7 +136,7 @@ const Dashboard = () => {
 
         const data = [
             { name: placeholder },
-            { name: domains[1].name }
+            domains[1].name
         ];
         console.log("ddddddd " + data[0] + " lll " + data[0] )
         const options = {
