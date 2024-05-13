@@ -135,10 +135,10 @@ const Dashboard = () => {
         const url = '/update_domain';
 
         const data = [
-                domains[0],
+            {"name":placeholder},
             domains[1]
         ];
-        console.log("ddddddd " + data[0] + " lll " + data[1]['name'] + " gg" + domains[0].name + "ff" + domains[1].name )
+        console.log("ddddddd " + data[0] + " l " + data[1]['name'] + " ll " )
         const options = {
             headers: {
                 'Content-Type': 'application/json'
