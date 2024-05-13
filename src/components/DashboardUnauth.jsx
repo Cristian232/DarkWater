@@ -7,18 +7,21 @@ const Dashboard = () => {
     const [serverStatus, setServerStatus] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        fetchDomains();
-    }, []);
+        fetchDomains(currentPage);
+    }, [currentPage]);
 
-    const check_alive = async (action) => {
+    const check_alive = async () => {
+        setIsLoading(true);
         try {
             const result = await axios.get(`/check_alive`);
             console.log(JSON.stringify(result));
-                setServerStatus(result.data);
+            setServerStatus(result.data);
+            setError('');
         } catch (error) {
-            console.error(`Failed to ${action}:`, error);
+            console.error('Failed to check server status:', error);
             setServerStatus('Server action failed.');
             setError(error.message);
         } finally {
@@ -26,19 +29,35 @@ const Dashboard = () => {
         }
     };
 
-    const fetchDomains = async () => {
+    const fetchDomains = async (page) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`/get_domains`);
+            const response = await axios.get(`/get_domains`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                params: { page }
+            });
             console.log(JSON.stringify(response.data));
             setServerStatus('Fetched domains');
-            setDomains(response.data);
+            setDomains(response.data.domains || response.data); // Adjust depending on API response structure
             setError('');
         } catch (error) {
-            console.error(error);
+            console.error('Failed to fetch domains:', error);
             setError('Failed to fetch domains.');
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const goToNextPage = () => {
+        setCurrentPage(prevPage => prevPage + 1);
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
         }
     };
 
@@ -56,19 +75,23 @@ const Dashboard = () => {
                         <button onClick={check_alive} className={styles.actionButton}>
                             Check Server Status
                         </button>
-                        <button onClick={fetchDomains} className={styles.actionButton}>
+                        <button onClick={() => fetchDomains(currentPage)} className={styles.actionButton}>
                             Fetch Domains
                         </button>
                     </div>
                     <h3>Domains</h3>
                     <ul className={styles.domainsList}>
                         {domains.map((domain, index) => (
-                            <li key={domain.id} className={styles.domainItem}>
-                                <span
-                                    className={styles.domainName}>{domain.name}</span>
+                            <li key={domain.id || index} className={styles.domainItem}>
+                                <span className={styles.domainName}>{domain.name}</span>
                             </li>
                         ))}
                     </ul>
+                    <div className={styles.pagination}>
+                        <button onClick={goToPreviousPage} disabled={currentPage === 1}>Previous</button>
+                        <span>Page {currentPage}</span>
+                        <button onClick={goToNextPage} disabled={domains.length === 0}>Next</button>
+                    </div>
                 </>
             )}
         </div>
