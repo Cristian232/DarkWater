@@ -98,8 +98,8 @@ const Dashboard = () => {
         try {
             const response = await axios.post(url, data, options);
             console.log('Success:', response.data);
-            setServerStatus(response.data);
             fetchDomains()
+            setServerStatus(response.data);
         } catch (error) {
             console.error('Failed to delete domains:', error);
         }
@@ -161,8 +161,8 @@ const Dashboard = () => {
         try {
             const response = await axios.post(url, data, options);
             console.log('Success:', response.data);
-            setServerStatus(response.data);
             fetchDomains()
+            setServerStatus(response.data);
         } catch (error) {
             console.error('Failed to update domains:', error);
         }
