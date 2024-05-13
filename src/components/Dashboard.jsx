@@ -138,7 +138,7 @@ const Dashboard = () => {
             {"name":placeholder},
             domains[1]
         ];
-        console.log("ddddddd " + data[0] + " l " + data[1]['name'] + " ll " )
+        console.log("ddddddd " + data[0]['name'] + " l " + data[1]['name'] + " ll " )
         const options = {
             headers: {
                 'Content-Type': 'application/json'
