@@ -78,12 +78,12 @@ const Dashboard = () => {
         }
     };
 
-    const handleDeleteDomain = async (domainId) => {
+    const handleDeleteDomain = async () => {
         const url = '/delete_domain';
 
-        const data = [
+        const data =
             domains[1]
-        ];
+        ;
         const options = {
             headers: {
                 'Content-Type': 'application/json'
