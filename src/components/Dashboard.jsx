@@ -11,25 +11,46 @@ const Dashboard = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const [request, setRequest] = useState(''); // State to handle custom request input
-    const [response, setResponse] = useState(''); // State to display results from the request
     const [placeholder, setPlaceholder] = useState('');
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
 
     useEffect(() => {
         if (!CookieManager.getSessionCookie()) {
             navigate('/login'); // Redirect to login if no session
         }
-        fetchDomains();
-    }, []);
+        fetchDomains(currentPage);
+    }, [currentPage]);
 
-    const fetchDomains = async () => {
+    // const fetchDomains = async () => {
+    //     setIsLoading(true);
+    //     try {
+    //         const response = await axios.get(`/get_domains`);
+    //         console.log(JSON.stringify(response.data));
+    //         setServerStatus('Fetched domains');
+    //         setDomains(response.data);
+    //         setError('');
+    //     } catch (error) {
+    //         console.error(error);
+    //         setError('Failed to fetch domains.');
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+
+    const fetchDomains = async (page) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`/get_domains`);
-            console.log(JSON.stringify(response.data));
+            const response = await axios.get(`/get_domains`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                params: { page }
+            });
+            console.log("check me --- " + JSON.stringify(response.data));
             setServerStatus('Fetched domains');
-            setDomains(response.data);
+            setDomains(response.data.domains || response.data); // Adjust depending on API response structure
             setError('');
         } catch (error) {
             console.error(error);
@@ -105,39 +126,6 @@ const Dashboard = () => {
         }
     };
 
-    // const handleUpdateDomain = async (domainId) => {
-    //     const sessionCookie = CookieManager.getSessionCookie();
-    //     if (!sessionCookie) {
-    //         navigate('/login');
-    //         return;
-    //     }
-    //
-    //     const newName = prompt("Please enter the new domain name:", "");
-    //     if (newName !== null && newName.trim() !== "") {
-    //         document.cookie = 'DNSWebSession=MA==';
-    //         try {
-    //             const response = await axios.post(`/updatnpme_domain`, [{
-    //                 name: newName
-    //             }], {
-    //                 headers: {
-    //                     'Content-Type': 'application/json',
-    //                     'Cookie': `session_id=${sessionCookie}` // Assuming cookies need to be manually set
-    //                 },
-    //                 withCredentials: true
-    //             });
-    //             console.log('Update response1:', response.data);
-    //             console.log(JSON.stringify({ id: domainId, name: newName }));
-    //
-    //             console.log('Update response2:', response.data);
-    //             fetchDomains(); // Refresh the list after successful update
-    //         } catch (error) {
-    //             console.error("Failed to update domain:", error);
-    //             alert('Failed to update domain. Please try again.'); // Provide feedback to the user
-    //         }
-    //     } else {
-    //         alert('No name entered or update cancelled.');
-    //     }
-    // };
 
 
     const updateDomains = async () => {
@@ -168,26 +156,19 @@ const Dashboard = () => {
         }
     };
 
-
-
-    const handleRequestSubmit = async (e) => {
-        e.preventDefault();
-        if (!request) {
-            setResponse('Please enter a request to send.');
-            return;
-        }
-        try {
-            const res = await axios.get(`/${request}`);
-            console.log("-----Request1" + JSON.stringify(res.data))
-            setResponse(JSON.stringify(res.data));
-        } catch (error) {
-            setResponse('Request failed: ' + error.message);
-        }
-    };
-
     const handleSignOut = () => {
         CookieManager.removeSessionCookie();
         navigate('/login'); // Redirect to login route
+    };
+
+    const goToNextPage = () => {
+        setCurrentPage(prevPage => prevPage + 1);
+    };
+
+    const goToPreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(prevPage => prevPage - 1);
+        }
     };
 
     return (
@@ -260,6 +241,15 @@ const Dashboard = () => {
                             </li>
                         ))}
                     </ul>
+                    <div className={styles.pagination}>
+                        <button onClick={goToPreviousPage}
+                                disabled={currentPage === 1}>Previous
+                        </button>
+                        <span>Page {currentPage}</span>
+                        <button onClick={goToNextPage}
+                                disabled={domains.length === 0}>Next
+                        </button>
+                    </div>
                 </>
             )}
         </div>
