@@ -138,7 +138,7 @@ const Dashboard = () => {
                 domains[0],
             domains[1]
         ];
-        console.log("ddddddd " + data[0] + " lll " + data[1] + " gg" + domains[0] )
+        console.log("ddddddd " + data[0] + " lll " + data[1] + " gg" + domains[0] + "ff" + domains[1] )
         const options = {
             headers: {
                 'Content-Type': 'application/json'
