@@ -135,8 +135,7 @@ const Dashboard = () => {
         const url = '/update_domain';
 
         const data = [
-            { name: placeholder },
-            domains[1].name
+                domains
         ];
         console.log("ddddddd " + data[0] + " lll " + data[0] )
         const options = {
