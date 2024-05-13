@@ -79,66 +79,11 @@ const Dashboard = () => {
     };
 
     const handleDeleteDomain = async (domainId) => {
-        if (!CookieManager.getSessionCookie()) {
-            navigate('/login');
-            return;
-        }
-        const originalDomains = domains;
-        const newDomains = domains.filter(domain => domain.id !== domainId);
-        setDomains(newDomains); // Optimistically update the UI
-        try {
-            await axios.post(`/delete_domain`, { id: domainId }, {
-                withCredentials: true
-            });
-        } catch (error) {
-            console.error("Failed to delete domain:", error);
-            setDomains(originalDomains); // Revert on error
-        }
-    };
-
-    const handleUpdateDomain = async (domainId) => {
-        const sessionCookie = CookieManager.getSessionCookie();
-        if (!sessionCookie) {
-            navigate('/login');
-            return;
-        }
-
-        const newName = prompt("Please enter the new domain name:", "");
-        if (newName !== null && newName.trim() !== "") {
-            document.cookie = 'DNSWebSession=MA==';
-            try {
-                const response = await axios.post(`/updatnpme_domain`, [{
-                    name: newName
-                }], {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Cookie': `session_id=${sessionCookie}` // Assuming cookies need to be manually set
-                    },
-                    withCredentials: true
-                });
-                console.log('Update response1:', response.data);
-                console.log(JSON.stringify({ id: domainId, name: newName }));
-
-                console.log('Update response2:', response.data);
-                fetchDomains(); // Refresh the list after successful update
-            } catch (error) {
-                console.error("Failed to update domain:", error);
-                alert('Failed to update domain. Please try again.'); // Provide feedback to the user
-            }
-        } else {
-            alert('No name entered or update cancelled.');
-        }
-    };
-
-
-    const updateDomains = async () => {
-        const url = '/update_domain';
+        const url = '/delete_domain';
 
         const data = [
-            {"name":placeholder},
             domains[1]
         ];
-        console.log("ddddddd " + data[0]['name'] + " l " + data[1]['name'] + " ll " )
         const options = {
             headers: {
                 'Content-Type': 'application/json'
@@ -149,9 +94,67 @@ const Dashboard = () => {
         // Set the DNSWebSession cookie if it's not handled by the browser automatically
         // Note: In browsers, document.cookie may not be able to set HttpOnly cookies
         document.cookie = 'DNSWebSession=MA==';
-        // let DNSWebSession;
-        // document.cookie= DNSWebSession="MTcxNTUyMTAxOA==";
 
+        try {
+            const response = await axios.post(url, data, options);
+            console.log('Success:', response.data);
+        } catch (error) {
+            console.error('Failed to delete domains:', error);
+        }
+    };
+
+    // const handleUpdateDomain = async (domainId) => {
+    //     const sessionCookie = CookieManager.getSessionCookie();
+    //     if (!sessionCookie) {
+    //         navigate('/login');
+    //         return;
+    //     }
+    //
+    //     const newName = prompt("Please enter the new domain name:", "");
+    //     if (newName !== null && newName.trim() !== "") {
+    //         document.cookie = 'DNSWebSession=MA==';
+    //         try {
+    //             const response = await axios.post(`/updatnpme_domain`, [{
+    //                 name: newName
+    //             }], {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Cookie': `session_id=${sessionCookie}` // Assuming cookies need to be manually set
+    //                 },
+    //                 withCredentials: true
+    //             });
+    //             console.log('Update response1:', response.data);
+    //             console.log(JSON.stringify({ id: domainId, name: newName }));
+    //
+    //             console.log('Update response2:', response.data);
+    //             fetchDomains(); // Refresh the list after successful update
+    //         } catch (error) {
+    //             console.error("Failed to update domain:", error);
+    //             alert('Failed to update domain. Please try again.'); // Provide feedback to the user
+    //         }
+    //     } else {
+    //         alert('No name entered or update cancelled.');
+    //     }
+    // };
+
+
+    const updateDomains = async () => {
+        const url = '/update_domain';
+
+        const data = [
+            {"name":placeholder},
+            domains[1]
+        ];
+        const options = {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            withCredentials: true, // This is necessary to send cookies with the request
+        };
+
+        // Set the DNSWebSession cookie if it's not handled by the browser automatically
+        // Note: In browsers, document.cookie may not be able to set HttpOnly cookies
+        document.cookie = 'DNSWebSession=MA==';
 
         try {
             const response = await axios.post(url, data, options);
@@ -237,6 +240,7 @@ const Dashboard = () => {
                                     className={styles.smallButton}>Update
                                 </button>
                                 <button
+                                    onClick={() => handleDeleteDomain()}
                                     className={styles.smallButton}>Delete
                                 </button>
                             </li>
