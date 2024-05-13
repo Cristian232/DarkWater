@@ -132,11 +132,13 @@ const Dashboard = () => {
 
 
     const updateDomains = async () => {
-        const url = 'http://192.168.1.58:5000/update_domain';
+        const url = '/update_domain';
+
         const data = [
-            { name: "place.holder" },
-            { name: "test.com" }
+            { name: placeholder },
+            { name: domains[0] }
         ];
+        console.log("ddddddd " + data[0] + " lll " + data[0] )
         const options = {
             headers: {
                 'Content-Type': 'application/json'
@@ -231,6 +233,7 @@ const Dashboard = () => {
                                     className={styles.editableInput}
                                 />
                                 <button
+                                    onClick={() => updateDomains()}
                                     className={styles.smallButton}>Update
                                 </button>
                                 <button
