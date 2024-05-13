@@ -30,6 +30,29 @@ function LoginPage() {
     };
 
 
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     if (!username || !password) {
+    //         setError('Username and password are required');
+    //         return;
+    //     }
+    //     setLoading(true);
+    //     try {
+    //         const response = await axios.post(`/do_login`, { username, password });
+    //         const token = response.data.sessionId;
+    //         CookieManager.setSessionCookie(token);
+    //         console.log("response --- " + JSON.stringify(response));
+    //         console.log("responsedate ---- " + response.data.message)
+    //         console.log("token ----- " + response.data.sessionId)
+    //         navigate('/dashboard');
+    //     } catch (axiosError) {
+    //         console.error("Login failed:", axiosError);
+    //         setError('Failed to login. Please check your credentials and try again.');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!username || !password) {
@@ -38,12 +61,17 @@ function LoginPage() {
         }
         setLoading(true);
         try {
-            const response = await axios.post(`/do_login`, { username, password });
-            const token = response.data.sessionId;
-            CookieManager.setSessionCookie(token);
-            console.log("response --- " + JSON.stringify(response));
-            console.log("responsedate ---- " + response.data.message)
-            console.log("token ----- " + response.data.sessionId)
+            const response = await fetch(`http://127.0.0.1:5000/do_login`,
+                {
+                method: "POST",
+                    body: ""
+            });
+
+            // const token = response.data.sessionId;
+             CookieManager.setSessionCookie("abc");
+            // console.log("response --- " + JSON.stringify(response));
+            // console.log("responsedate ---- " + response.data.message)
+            // console.log("token ----- " + response.data.sessionId)
             navigate('/dashboard');
         } catch (axiosError) {
             console.error("Login failed:", axiosError);

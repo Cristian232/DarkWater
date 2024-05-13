@@ -13,6 +13,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [request, setRequest] = useState(''); // State to handle custom request input
     const [response, setResponse] = useState(''); // State to display results from the request
+    const [placeholder, setPlaceholder] = useState('');
 
 
     useEffect(() => {
@@ -106,7 +107,7 @@ const Dashboard = () => {
         if (newName !== null && newName.trim() !== "") {
             document.cookie = 'DNSWebSession=MA==';
             try {
-                const response = await axios.post(`/update_domain`, [{
+                const response = await axios.post(`/updatnpme_domain`, [{
                     name: newName
                 }], {
                     headers: {
@@ -216,39 +217,34 @@ const Dashboard = () => {
                                 className={styles.actionButton}>Sign Out
                         </button>
                     </div>
-                    <div>
-                        <form onSubmit={handleRequestSubmit}
-                              className={styles.testForm}>
-                            <input
-                                type="text"
-                                placeholder="Enter request endpoint"
-                                value={request}
-                                onChange={(e) => setRequest(e.target.value)}
-                                className={styles.inputField}
-                            />
-                            <button type="submit"
-                                    className={styles.submitButton}>
-                                Send Request
-                            </button>
-                            {response && <div
-                                className={styles.responseBox}>{response}</div>}
-                        </form>
-                    </div>
+
                     <h3>Domains</h3>
                     <ul className={styles.domainsList}>
-                        {domains.map((domain, index) => (
-                            <li key={domain.id} className={styles.domainItem}>
+                        {domains.map((domain, index) => index === 0 ? (
+                            // Make the first domain's name editable
+                            <li key={domain.id || index}
+                                className={styles.domainItem}>
+                                <input
+                                    type="text"
+                                    value={placeholder || domain.name}
+                                    onChange={(e) => setPlaceholder(e.target.value)}
+                                    className={styles.editableInput}
+                                />
+                                <button
+                                    className={styles.smallButton}>Update
+                                </button>
+                                <button
+                                    className={styles.smallButton}>Delete
+                                </button>
+                            </li>
+                        ) : (
+                            // Display the second domain normally
+                            <li key={domain.id || index}
+                                className={styles.domainItem}>
                                 <span
                                     className={styles.domainName}>{domain.name}</span>
                                 <div className={styles.domainActions}>
-                                    <button
-                                        onClick={() => handleUpdateDomain(domain.id)}
-                                        className={styles.smallButton}>Update
-                                    </button>
-                                    <button
-                                        onClick={() => handleDeleteDomain(domain.id)}
-                                        className={styles.smallButton}>Delete
-                                    </button>
+
                                 </div>
                             </li>
                         ))}

@@ -24,7 +24,7 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-.actionButton, .smallButton{
+.actionButton {
     margin: 10px;
     padding: 10px 15px;
     background-color: #4F76F6;
@@ -37,6 +37,28 @@
     cursor: pointer;
     transition: background-color 0.5s ease;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.smallButton{
+    margin: 10px;
+    padding: 10px 15px;
+    background-color: #4F76F6;
+    color: #dadada;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+
+}
+
+.editableInput{
+    padding: 5px;
+    margin-left: 10px;
+    color: grey;
 }
 
 .actionButton:hover, .smallButton:hover{
@@ -57,13 +79,22 @@
 }
 
 .domainItem {
-    padding: 0px 10px;
-    margin: 5px 0;
+    padding: 15px 15px;
+    margin: 10px;
     background-color: #3A3F4B;
     border-radius: 4px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.domainItem span{
+    margin-left: 12px;
+    flex: 0;
+}
+
+.editableInput {
+    margin-right: clamp(10vw,100px,14vw);
 }
