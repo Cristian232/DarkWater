@@ -128,12 +128,10 @@ const Dashboard = () => {
 
 
     const updateDomains = async () => {
-        const url = '/update_domain';
+        const url = '/update_log';
 
-        const data = [
-            {"name":placeholder},
-            domains[1]
-        ];
+        const data =
+            placeholder;
         const options = {
             headers: {
                 'Content-Type': 'application/json'
@@ -180,7 +178,17 @@ const Dashboard = () => {
         }
     };
 
-
+    // const handleupdate = async () => {
+    //     try {
+    //         let data =
+    //         const response = await axios.get('/update_log');
+    //         const response = await axios.post(url, data, options);
+    //         console.log("update logs", response.data);
+    //         setLogs(response.data); // Assuming response.data is the log data you want to display
+    //     } catch (axiosError) {
+    //         console.error("Login failed", axiosError);
+    //     }
+    // };
 
     return (
         <div className={styles.dashboardContainer}>
@@ -228,7 +236,16 @@ const Dashboard = () => {
                             // Make the first domain's name editable
                             <li key={domain.id || index}
                                 className={styles.domainItem}>
-
+                                <input
+                                    type="text"
+                                    value={placeholder || domain.name}
+                                    onChange={(e) => setPlaceholder(e.target.value)}
+                                    className={styles.editableInput}
+                                />
+                                <button
+                                    onClick={() => updateDomains()}
+                                    className={styles.smallButton}>Update Log
+                                </button>
                             </li>
                         ) : (
                             // Display the second domain normally
