@@ -2,9 +2,9 @@ import { useState } from 'react';
 import axios from '../api/AxiosConfig.jsx';
 import { useNavigate } from 'react-router-dom';
 
-import styles from "./Dashboard.module.css";
 
-function LoginPage() {
+
+function Logs() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -42,4 +42,4 @@ function LoginPage() {
     );
 }
 
-export default LoginPage;
+export default Logs;
