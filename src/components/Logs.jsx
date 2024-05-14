@@ -12,11 +12,9 @@ function Logs() {
 
     const navigate = useNavigate();
 
-    const handleGuestLogin = async (e) => {
+    const handleGuestLogin = async () => {
         // Logic for guest access
         // Possible redirection or state update
-        e.preventDefault();
-        setLoading(true);
         try {
             const response = await axios.get('/get_log');
             console.log("TEST logs" +
@@ -24,10 +22,8 @@ function Logs() {
             )
             // navigate('/dashboardUnauth');
         } catch (axiosError) {
-            console.error("Login failed:", axiosError);
+            console.error("Login failed", axiosError);
             setError('Failed to login. Please check your credentials and try again.');
-        } finally {
-            setLoading(false);
         }
     };
 
