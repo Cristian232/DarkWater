@@ -16,7 +16,7 @@ function Logs() {
         // Logic for guest access
         // Possible redirection or state update
         try {
-            const response = await axios.get('/get_log');
+            const response = axios.get('/get_log');
             console.log("TEST logs" +
                 response.data
             )
