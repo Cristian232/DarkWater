@@ -73,6 +73,47 @@ const Dashboard = () => {
         }
     };
 
+    const restart_server = async (action) => {
+        try {
+            const result = await axios.get(`/restart_server`);
+            console.log(JSON.stringify(result));
+            setServerStatus(result.data);
+        } catch (error) {
+            console.error(`Failed to ${action}:`, error);
+            setServerStatus('Server action failed.');
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const stop_server = async (action) => {
+        try {
+            const result = await axios.get(`/stop_server`);
+            console.log(JSON.stringify(result));
+            setServerStatus(result.data);
+        } catch (error) {
+            console.error(`Failed to ${action}:`, error);
+            setServerStatus('Server action failed.');
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const start_server = async (action) => {
+        try {
+            const result = await axios.get(`/start_server`);
+            console.log(JSON.stringify(result));
+            setServerStatus(result.data);
+        } catch (error) {
+            console.error(`Failed to ${action}:`, error);
+            setServerStatus('Server action failed.');
+            setError(error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
     const handleServerAction = async (action) => {
         if (!CookieManager.getSessionCookie()) {
             navigate('/login');
@@ -82,11 +123,11 @@ const Dashboard = () => {
             // let result = await axios.get(`/${action}`);
             // console.log(JSON.stringify(result))
             if (action == 'start_server') {
-                setServerStatus(result.data);
+                start_server();
             } else if (action == 'stop_server') {
-                setServerStatus(result.data);
+                stop_server()
             } else if (action === 'restart_server') {
-                setServerStatus(result.data);
+                restart_server()
             } else if (action === 'check_alive') {
                 check_alive();
             } else if (action === 'fetchDomains') {
