@@ -17,7 +17,7 @@ function LoginPage() {
         e.preventDefault();
         setLoading(true);
         try {
-            const response = await axios.get(`/get_logs`);
+            const response = await axios.get(`/get_log`);
             console.log(
                 response.data
             )
