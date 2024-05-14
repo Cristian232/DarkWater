@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import axios from '../api/AxiosConfig.jsx';
-import styles from "./Dashboard.module.css";
 
 
 
@@ -14,7 +13,7 @@ function Logs() {
         // Logic for guest access
         // Possible redirection or state update
         try {
-            const response = axios.get('/get_log');
+            const response = axios.get('http://localhost:5000/get_log');
             console.log("TEST logs" +
                 response.data
             )

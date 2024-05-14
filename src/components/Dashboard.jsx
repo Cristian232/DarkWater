@@ -171,18 +171,17 @@ const Dashboard = () => {
         }
     };
 
-    const handleNavigateLogs = async (e) => {
-        // Logic for guest access
+    const handleNavigateLogs = (e) => {
+        e.preventDefault(); // Prevent the default form submit behavior if used within a form
         console.log('Continue as guest');
-        // Possible redirection or state update
-        e.preventDefault();
-        try {
-            navigate('/logs');
-        } catch (axiosError) {
-            console.error("Login failed:", axiosError);
-            setError('Failed to login. Please check your credentials and try again.');
-        }
+
+        // Open a new tab with the /logs route
+        const newTab = window.open('http://localhost:5000/get_log', '_blank');
+
+        // Optionally focus the new tab
+        newTab.focus();
     };
+
 
 
     return (
