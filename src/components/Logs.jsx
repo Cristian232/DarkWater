@@ -13,8 +13,11 @@ function Logs() {
         // Logic for guest access
         // Possible redirection or state update
         try {
-            const response = axios.get('http://localhost:5000/get_log');
-            console.log("TEST logs" +
+            const response = await axios.get('/get_log');
+            console.log("TEST logs", response.data);
+            setLogs(response.data); // Assuming response.data is the log data you want to display
+
+            console.log("TEST logs " +
                 response.data
             )
             setUsername(response.data)

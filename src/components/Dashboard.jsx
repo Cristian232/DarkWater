@@ -13,7 +13,7 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const [placeholder, setPlaceholder] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+    const [logs, setLogs] = useState('');
 
     useEffect(() => {
         if (!CookieManager.getSessionCookie()) {
@@ -171,15 +171,14 @@ const Dashboard = () => {
         }
     };
 
-    const handleNavigateLogs = (e) => {
-        e.preventDefault(); // Prevent the default form submit behavior if used within a form
-        console.log('Continue as guest');
-
-        // Open a new tab with the /logs route
-        const newTab = window.open('http://localhost:5000/get_log', '_blank');
-
-        // Optionally focus the new tab
-        newTab.focus();
+    const handleNavigateLogs = async () => {
+        try {
+            const response = await axios.get('/get_log');
+            console.log("TEST logs", response.data);
+            setLogs(response.data); // Assuming response.data is the log data you want to display
+        } catch (axiosError) {
+            console.error("Login failed", axiosError);
+        }
     };
 
 
