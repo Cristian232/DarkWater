@@ -228,20 +228,7 @@ const Dashboard = () => {
                             // Make the first domain's name editable
                             <li key={domain.id || index}
                                 className={styles.domainItem}>
-                                <input
-                                    type="text"
-                                    value={placeholder || domain.name}
-                                    onChange={(e) => setPlaceholder(e.target.value)}
-                                    className={styles.editableInput}
-                                />
-                                <button
-                                    onClick={() => updateDomains()}
-                                    className={styles.smallButton}>Update
-                                </button>
-                                <button
-                                    onClick={() => handleDeleteDomain()}
-                                    className={styles.smallButton}>Delete
-                                </button>
+
                             </li>
                         ) : (
                             // Display the second domain normally
