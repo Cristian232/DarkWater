@@ -41,13 +41,12 @@ const Dashboard = () => {
     const fetchDomains = async (page) => {
         setIsLoading(true);
         try {
-            const response = await axios.get(`/get_domains`, {
+            const response = await axios.get(`/get_domains/${page}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                params: { page },
-                body: { "page":`${page}` }
+                params: { page }
             });
             console.log("check me --- " + JSON.stringify(response.data));
             setServerStatus('Fetched domains');
