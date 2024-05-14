@@ -172,6 +172,20 @@ const Dashboard = () => {
         }
     };
 
+    const handleNavigateLogs = async (e) => {
+        // Logic for guest access
+        console.log('Continue as guest');
+        // Possible redirection or state update
+        e.preventDefault();
+        try {
+            navigate('/logs');
+        } catch (axiosError) {
+            console.error("Login failed:", axiosError);
+            setError('Failed to login. Please check your credentials and try again.');
+        }
+    };
+
+
     return (
         <div className={styles.dashboardContainer}>
             <h2>Dashboard</h2>
@@ -203,6 +217,9 @@ const Dashboard = () => {
                         <button
                             onClick={() => handleServerAction('fetchDomains')}
                             className={styles.actionButton}>Fetch Domains
+                        </button>
+                        <button onClick={handleNavigateLogs}
+                                className={styles.actionButton}>Get Logs
                         </button>
                         <button onClick={handleSignOut}
                                 className={styles.actionButton}>Sign Out
